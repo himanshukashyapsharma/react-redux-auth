@@ -108,7 +108,7 @@ export const GoToAuthFromProfile = (mode) => dispatch => {
             dispatch({type: RESET_USER_STATE })
             dispatch(ChangeAuthenticationMode(mode))
         })
-    }, dispatch, 500)
+    }, dispatch)
 }
 
 export const ChangeAuthenticationMode = (mode) => ({type: CHANGE_AUTHENTICATION_MODE , mode})
@@ -123,18 +123,10 @@ const showAuthenticationError = (error,dispatch) => dispatch(ChangeAuthenticatio
 
 const addNewUser = (userID, name, password, isValidMobile, dispatch) => dispatch({type: REGISTER_NEW_USER, userID, name, password, mobile: isValidMobile ? userID : '' })
 
-export const runAfterLoader = (callbackFunction, dispatch, time = 1500) => {
-    let flag = false
-    let timeOut = setInterval(() => {
-        if(flag) {
-           batch(() => {
-               callbackFunction?.()
-               dispatch(ChangeAuthenticationData('loader', false))
-           })
-            clearInterval(timeOut)
-        } else {
-            dispatch(ChangeAuthenticationData('loader', true))
-            flag = !flag
-        }
-    }, time)
+export const runAfterLoader = (callbackFunction, dispatch, time = 500) => {
+    dispatch(ChangeAuthenticationData('loader', true))
+    setTimeout(() => {
+        callbackFunction?.()
+        dispatch(ChangeAuthenticationData('loader', false))
+    }, time);
 }

@@ -5,7 +5,7 @@ function FullLoader({loader}) {
         <>
             {loader ? 
                 <div className="full-loader">
-                    <div className="spinner"><i class="fas fa-spinner fa-4x"></i></div>
+                    <div className="spinner"><i className="fas fa-spinner fa-4x"></i></div>
                 </div>
                 : null}
         </>

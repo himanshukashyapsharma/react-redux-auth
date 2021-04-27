@@ -1,6 +1,8 @@
 import React, {useRef} from 'react'
 import { connect } from 'react-redux'
 
+import StateSelector from '../components/state-selector'
+import CountryCodeSelector from '../components/country-code-selector'
 
 import {ChangeUserData, ChangeUserAddress, OnUserDataSubmit, UploadImage, RemoveUserErrorOnFocus} from '../actions/users-action'
 
@@ -21,7 +23,7 @@ function UserProfileScreen({name, DOB, mobile, address, image, errors, ChangeUse
     return (
         <div className="user-profile-container">
             <div className="image-container">
-                <img className="image" src={!!image ? (window.URL || window.webkitURL).createObjectURL(image) : 'default.png'} />
+                <img className="image" src={!!image ? (window.URL || window.webkitURL).createObjectURL(image) : 'default.png'} alt="user profile" />
                 {!!image ? <span className="image-delete-button" onClick={ClearUserImage}><i className="far fa-times-circle fa-2x"></i></span> : null}
             </div>
             <div className="file-input-container">
@@ -32,65 +34,21 @@ function UserProfileScreen({name, DOB, mobile, address, image, errors, ChangeUse
                 
             </div>
             <div>
-                <input className={`large-input WL ${errors.name ? 'input-error' : ''}`} type='text' name="name" value={name} placeholder="Enter your name" onChange={(e) => ChangeUserData(e.target.name, e.target.value)} onKeyPress={onEnterPress} onFocus={(e) => RemoveUserErrorOnFocus(e.target.name)} required autoComplete="none" />
+                <input className={`large-input WXL ${errors.name ? 'input-error' : ''}`} type='text' name="name" value={name} placeholder="Enter your name" onChange={(e) => ChangeUserData(e.target.name, e.target.value)} onKeyPress={onEnterPress} onFocus={(e) => RemoveUserErrorOnFocus(e.target.name)} required autoComplete="none" />
                 <div className="errors">{errors.name}</div>
             </div>
             <div>
-                <input className="large-input WL" type='date' name="DOB" value={DOB} placeholder="Enter date of birth" onChange={(e) => ChangeUserData(e.target.name, e.target.value)} onKeyPress={onEnterPress} autoComplete="none" />
-            </div>
-            <div>
-                <input className={`large-input WL ${errors.mobile ? 'input-error' : ''}`} type='number' name="mobile" value={mobile} placeholder="Enter mobile no." onChange={(e) => ChangeUserData(e.target.name, e.target.value)} onKeyPress={onEnterPress} onFocus={(e) => RemoveUserErrorOnFocus(e.target.name)} autoComplete="none" />
-                <div className="errors">{errors.mobile}</div>
+                <input className="large-input WXL" type='date' name="DOB" value={DOB} placeholder="Enter date of birth" onChange={(e) => ChangeUserData(e.target.name, e.target.value)} onKeyPress={onEnterPress} autoComplete="none" />
             </div>
             <div className="display-flex">
+                <CountryCodeSelector />
                 <div>
-                    <select
-                        className={`medium-input WM ${errors.state ? 'input-error' : ''}`}
-                        name="state"
-                        onChange={(e) => ChangeUserAddress(e.target.name, e.target.value)}
-                        onFocus={(e) => RemoveUserErrorOnFocus(e.target.name)} 
-                        value={address.state}
-                    >
-                        <option value="">--State--</option>
-                        <option value="Andhra Pradesh">Andhra Pradesh</option>
-                        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                        <option value="Assam">Assam</option>
-                        <option value="Bihar">Bihar</option>
-                        <option value="Chandigarh">Chandigarh</option>  
-                        <option value="Chhattisgarh">Chhattisgarh</option>
-                        <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
-                        <option value="Daman and Diu">Daman and Diu</option>
-                        <option value="Delhi">Delhi</option>
-                        <option value="Lakshadweep">Lakshadweep</option>
-                        <option value="Puducherry">Puducherry</option>
-                        <option value="Goa">Goa</option>
-                        <option value="Gujarat">Gujarat</option>
-                        <option value="Haryana">Haryana</option>
-                        <option value="Himachal Pradesh">Himachal Pradesh</option>
-                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                        <option value="Jharkhand">Jharkhand</option>
-                        <option value="Karnataka">Karnataka</option>
-                        <option value="Kerala">Kerala</option>
-                        <option value="Madhya Pradesh">Madhya Pradesh</option>
-                        <option value="Maharashtra">Maharashtra</option>
-                        <option value="Manipur">Manipur</option>
-                        <option value="Meghalaya">Meghalaya</option>
-                        <option value="Mizoram">Mizoram</option>
-                        <option value="Nagaland">Nagaland</option>
-                        <option value="Odisha">Odisha</option>
-                        <option value="Punjab">Punjab</option>
-                        <option value="Rajasthan">Rajasthan</option>
-                        <option value="Sikkim">Sikkim</option>
-                        <option value="Tamil Nadu">Tamil Nadu</option>
-                        <option value="Telangana">Telangana</option>
-                        <option value="Tripura">Tripura</option>
-                        <option value="Uttar Pradesh">Uttar Pradesh</option>
-                        <option value="Uttarakhand">Uttarakhand</option>
-                        <option value="West Bengal">West Bengal</option>
-                    </select>
-                    <div className="errors">{errors.state}</div>
+                    <input className={`large-input WL ${errors.mobile ? 'input-error' : ''}`} type='number' name="mobile" value={mobile} placeholder="Enter mobile no." onChange={(e) => ChangeUserData(e.target.name, e.target.value)} onKeyPress={onEnterPress} onFocus={(e) => RemoveUserErrorOnFocus(e.target.name)} autoComplete="none" />
+                    <div className="errors">{errors.mobile}</div>
                 </div>
+            </div>
+            <div className="display-flex">
+                <StateSelector />
                 <div>
                     <input className={`medium-input WS ${errors.city ? 'input-error' : ''}`} type='text' name="city" value={address.city} placeholder="city" onChange={(e) => ChangeUserAddress(e.target.name, e.target.value)} onKeyPress={onEnterPress} onFocus={(e) => RemoveUserErrorOnFocus(e.target.name)} autoComplete="none" />
                     <div className="errors">{errors.city}</div>
@@ -101,7 +59,7 @@ function UserProfileScreen({name, DOB, mobile, address, image, errors, ChangeUse
                 </div>
             </div>
             <div>
-                <input className={`large-input WL ${errors.address ? 'input-error' : ''}`} type='text' name="address" value={address.address} placeholder="Enter your address" onChange={(e) => ChangeUserAddress(e.target.name, e.target.value)} onKeyPress={onEnterPress} onFocus={(e) => RemoveUserErrorOnFocus(e.target.name)} autoComplete="none" />
+                <input className={`large-input WXL ${errors.address ? 'input-error' : ''}`} type='text' name="address" value={address.address} placeholder="Enter your address" onChange={(e) => ChangeUserAddress(e.target.name, e.target.value)} onKeyPress={onEnterPress} onFocus={(e) => RemoveUserErrorOnFocus(e.target.name)} autoComplete="none" />
                 <div className="errors">{errors.address}</div>
             </div>
             <button className="input-button" onClick={OnUserDataSubmit}>Update</button>

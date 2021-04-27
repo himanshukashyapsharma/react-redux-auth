@@ -16,7 +16,7 @@ export const ChangeUserData = (key,value) => ({type: CHANGE_USER_DATA, key, valu
 export const ChangeUserAddress = (key,value) => ({type: CHANGE_USER_ADDRESS, key, value})
 
 export const OnUserDataSubmit = () => (dispatch, getState) => {
-    const {name, DOB, mobile, address} = getState().users_store
+    const {name, mobile, address,countryCode} = getState().users_store
 
     const mobile_validator = /^[6-9][0-9]{9}$/;
     const valid_mobile = mobile_validator.test(mobile);
@@ -29,8 +29,14 @@ export const OnUserDataSubmit = () => (dispatch, getState) => {
         errors.name = 'Name too short!'
     }
 
-    if(mobile != "" && !valid_mobile) {
+    if(mobile != "" && !valid_mobile && countryCode == '91') {
         errors.mobile = 'Invalid Mobile No!'
+    }
+    if(countryCode != "" && mobile == "") {
+        errors.mobile = 'Please Select Mobile No!'
+    }
+    if(mobile != "" && countryCode == "") {
+        errors.countryCode = 'Select Country Code!'
     }
 
 
@@ -42,12 +48,10 @@ export const OnUserDataSubmit = () => (dispatch, getState) => {
             if(!address[key]) errors[key] = "Can't be Empty!"
         }
     }
-
     if(Object.keys(errors).length > 0) {
         dispatch(ChangeUserData('errors', errors))
     } else {
         runAfterLoader(() => dispatch({type: UPDATE_USER_DATA}) ,dispatch)
-        
     }
 }
 
@@ -87,18 +91,10 @@ export const UploadImage = (event, fileRef) => (dispatch) => {
 
 export const RemoveUserErrorOnFocus = (key) => ({type: REMOVE_USER_ERROR_ON_FOCUS, key})
 
-export const runAfterLoader = (callbackFunction, dispatch) => {
-    let flag = false
-    let timeOut = setInterval(() => {
-        if(flag) {
-           batch(() => {
-               callbackFunction?.()
-               dispatch(ChangeUserData('loader', false))
-           })
-            clearInterval(timeOut)
-        } else {
-            dispatch(ChangeUserData('loader', true))
-            flag = !flag
-        }
-    }, 1500)
+export const runAfterLoader = (callbackFunction, dispatch, time = 500) => {
+    dispatch(ChangeUserData('loader', true))
+    setTimeout(() => {
+        callbackFunction?.()
+        dispatch(ChangeUserData('loader', false))
+    }, time);
 }

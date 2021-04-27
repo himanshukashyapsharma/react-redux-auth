@@ -24,6 +24,7 @@ const USERS_STATE = {
         name: 'himanshu sharma',
         password: 12345678,
         mobile: 8800626179,
+        countryCode: '',
         DOB: '1998-04-02',
         address: {state: '', city: '', address: '',  pincode: ''},
         image: ""
@@ -42,7 +43,6 @@ export const UsersReducer = (state = USERS_STATE, action) => {
 
     if(action.type === CHANGE_USER_ADDRESS) {
         newState.address = {...newState.address, [action.key]: action.value}
-        console.log(newState)
 
         return newState
     }
@@ -53,6 +53,7 @@ export const UsersReducer = (state = USERS_STATE, action) => {
             name: action.name,
             password: action.password,
             mobile: action.mobile,
+            countryCode :'',
             DOB: '',
             address: {state: '', city: '', address: '',  pincode: ''},
             image: ""
@@ -67,6 +68,7 @@ export const UsersReducer = (state = USERS_STATE, action) => {
         newState.mobile = action.user.mobile
         newState.address = action.user.address
         newState.DOB = action.user.DOB
+        newState.countryCode = action.user.countryCode
         newState.image = action.user.image
         return newState
     }
@@ -78,7 +80,8 @@ export const UsersReducer = (state = USERS_STATE, action) => {
             mobile: newState.mobile,
             DOB: newState.DOB,
             address: {...newState.address},
-            image: newState.image
+            image: newState.image,
+            countryCode: newState.countryCode
         }: user)
         newState.errors = {}
         return newState

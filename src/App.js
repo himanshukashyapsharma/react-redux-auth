@@ -9,7 +9,6 @@ import AuthenticationScreen from "./screens/authentication-screen"
 
 import './App.css';
 
-
 function App({mode, loader}) {
   return (
     <div className="App">

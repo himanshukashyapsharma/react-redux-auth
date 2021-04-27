@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 
 import {ChangeAuthenticationData, OnSubmit, ChangeAuthenticationMode, RemoveAuthErrorOnFocus} from '../actions/authentication-action'
 
-function AuthenticationScreen({userID, name, password, confirmPassword, mode, errors, loader, ChangeAuthenticationData, OnSubmit, ChangeAuthenticationMode, RemoveAuthErrorOnFocus}) {
+function AuthenticationScreen({userID, name, password, confirmPassword, mode, errors ChangeAuthenticationData, OnSubmit, ChangeAuthenticationMode, RemoveAuthErrorOnFocus}) {
 
     const [isPasswordVisible, setIsPasswordVisibile] = useState(false)
 
@@ -57,7 +57,6 @@ const mapStateToProps = state => ({
     name: state.authentication_store.name,
     mode: state.authentication_store.mode,
     errors: state.authentication_store.errors,
-    loader: state.authentication_store.loader,
     userID: state.authentication_store.userID,
     password: state.authentication_store.password,
     confirmPassword: state.authentication_store.confirmPassword

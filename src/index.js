@@ -1,17 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import './index.css';
-import App from './App';
-
 import ReduxThunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 
-import {AuthenticationReducer} from './reducers/authentication-reducer'
 import {UsersReducer} from './reducers/users-reducer'
+import {AuthenticationReducer} from './reducers/authentication-reducer'
+
+import App from './App';
+
 
 const reducers = combineReducers({
-	authentication_store: AuthenticationReducer,
+  authentication_store: AuthenticationReducer,
 	users_store: UsersReducer,
 });
 

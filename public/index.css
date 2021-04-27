@@ -96,6 +96,7 @@ body {
     /* width: 400px; */
     height: 55px;
     border: none;
+    color: grey;
     background-color: #e9eff6;
     padding: 5px 15px;
     margin: 10px 5px;
@@ -107,6 +108,7 @@ body {
     /* width: 127px; */
     height: 55px;
     border: none;
+    color: grey;
     background-color: #e9eff6;
     padding: 5px 15px;
     margin: 10px 5px;
@@ -132,6 +134,10 @@ body {
 }
 
 .WL {
+    width: 220px;
+}
+
+.WXL {
     width: 400px;
 }
 
