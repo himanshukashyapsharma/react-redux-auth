@@ -1,0 +1,104 @@
+import { batch } from "react-redux";
+import {
+    LOGIN_USER,
+    UPLOAD_IMAGE,
+    CHANGE_USER_DATA,
+    UPDATE_USER_DATA,
+    CHANGE_USER_ADDRESS,
+    REMOVE_USER_ERROR_ON_FOCUS
+} from "../actions/types";
+
+
+export const UpdateUserDataOnLogin = (user) => ({type: LOGIN_USER, user})
+
+export const ChangeUserData = (key,value) => ({type: CHANGE_USER_DATA, key, value})
+
+export const ChangeUserAddress = (key,value) => ({type: CHANGE_USER_ADDRESS, key, value})
+
+export const OnUserDataSubmit = () => (dispatch, getState) => {
+    const {name, DOB, mobile, address} = getState().users_store
+
+    const mobile_validator = /^[6-9][0-9]{9}$/;
+    const valid_mobile = mobile_validator.test(mobile);
+    const errors = {}
+
+    if(name == "") {
+        errors.name = 'Name cannot be empty!'
+        
+    } else if (name.length < 3) {
+        errors.name = 'Name too short!'
+    }
+
+    if(mobile != "" && !valid_mobile) {
+        errors.mobile = 'Invalid Mobile No!'
+    }
+
+
+    if(areAllAddressFilled(address)) {
+        if(address.pincode.length < 6 || address.pincode.length > 6) errors.pincode = 'Invalid pincode!'
+        if(address.address.length < 10) errors.address = 'Address Too Short!'
+    } else if(!areAllAddressEmpty(address)) {
+        for (let key in address) {
+            if(!address[key]) errors[key] = "Can't be Empty!"
+        }
+    }
+
+    if(Object.keys(errors).length > 0) {
+        dispatch(ChangeUserData('errors', errors))
+    } else {
+        runAfterLoader(() => dispatch({type: UPDATE_USER_DATA}) ,dispatch)
+        
+    }
+}
+
+const areAllAddressFilled = address => (!!address.state && !!address.city && !!address.pincode && !!address.address)
+
+const areAllAddressEmpty = address => (!address.state && !address.city && !address.pincode && !address.address)
+
+export const UploadImage = (event, fileRef) => (dispatch) => {
+	const file = event.target.files[0];
+	if (!file) {
+        batch(() => {
+            dispatch(ChangeUserData('loader',false))
+            dispatch(ChangeUserData('errors', {image: 'Error Uploading Image'}))
+            fileRef.current.value = ""
+        })
+		return;
+	}
+	const fileName = file.name.toLowerCase();
+    if (!(fileName.endsWith(".png") || fileName.endsWith(".jpg") || fileName.endsWith(".jpeg"))) {
+        batch(() => {
+            dispatch(ChangeUserData('loader',false))
+            dispatch(ChangeUserData('errors', {image: 'Invalid File Type!'}))
+            fileRef.current.value = ""
+        })
+    } else {
+        const _URL = window.URL || window.webkitURL;
+        const img = new Image();
+        img.src = _URL.createObjectURL(file);
+        img.onload = function () {   
+                batch(() => {
+                    dispatch(ChangeUserData('loader',false))
+                    dispatch({ type: UPLOAD_IMAGE, file });
+                })
+            }
+    }
+};
+
+export const RemoveUserErrorOnFocus = (key) => ({type: REMOVE_USER_ERROR_ON_FOCUS, key})
+
+export const runAfterLoader = (callbackFunction, dispatch) => {
+    let flag = false
+    let timeOut = setInterval(() => {
+        if(flag) {
+           batch(() => {
+               callbackFunction?.()
+               dispatch(ChangeUserData('loader', false))
+           })
+            clearInterval(timeOut)
+        } else {
+            dispatch(ChangeUserData('loader', true))
+            flag = !flag
+        }
+    }, 1500)
+}

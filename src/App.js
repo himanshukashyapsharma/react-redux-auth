@@ -1,25 +1,28 @@
-import logo from './logo.svg';
+
+import {connect} from 'react-redux'
+
+import Header from './components/header'
+import FullLoader from './components/full-loader'
+import UserProfileScreen from "./screens/user-profile-screen"
+import AuthenticationScreen from "./screens/authentication-screen"
+
+
 import './App.css';
 
-function App() {
+
+function App({mode, loader}) {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      {mode == 'loggedIn' ? <UserProfileScreen /> : <AuthenticationScreen /> }
+      <FullLoader loader={loader} />
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = state => ({
+  mode: state.authentication_store.mode,
+  loader: state.authentication_store.loader || state.users_store.loader
+})
+
+export default connect(mapStateToProps)(App);
