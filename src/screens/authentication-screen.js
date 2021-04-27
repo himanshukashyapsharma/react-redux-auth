@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 
 import {ChangeAuthenticationData, OnSubmit, ChangeAuthenticationMode, RemoveAuthErrorOnFocus} from '../actions/authentication-action'
 
-function AuthenticationScreen({userID, name, password, confirmPassword, mode, errors ChangeAuthenticationData, OnSubmit, ChangeAuthenticationMode, RemoveAuthErrorOnFocus}) {
+function AuthenticationScreen({userID, name, password, confirmPassword, mode, errors, ChangeAuthenticationData, OnSubmit, ChangeAuthenticationMode, RemoveAuthErrorOnFocus}) {
 
     const [isPasswordVisible, setIsPasswordVisibile] = useState(false)
 
