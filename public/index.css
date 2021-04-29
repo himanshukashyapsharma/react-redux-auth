@@ -291,3 +291,43 @@ body {
     color: grey;
     cursor: pointer;
 }
+
+@media only screen and (max-width: 600px){
+    .auth-wrap{
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+    }
+
+    .auth-text-big {
+        font-weight: 800;
+        font-size: 24px;
+    }
+
+    .auth-text-container {
+        padding: 0 50px;
+    }
+
+    .auth-wrap{
+        height: 30vh;
+    }
+
+    .auth-input {
+        width: 280px;
+    }
+
+    .input-button {
+        width: 280px
+    }
+
+    .auth-text-small {
+        font-size: 14px;
+    }
+
+    .auth-text-container {
+        min-height: 240px;
+    }
+
+    .auth-form-container {
+        padding-bottom: 80px;
+    }
+}
