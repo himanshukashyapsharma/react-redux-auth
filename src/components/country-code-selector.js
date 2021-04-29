@@ -10,7 +10,7 @@ function CountryCodeSelector({error, countryCode, ChangeUserData, RemoveUserErro
     return (
         <div>
             <select className={className} name="countryCode" value={countryCode} onChange={(e) => ChangeUserData(e.target.name, e.target.value)} onFocus={(e) => RemoveUserErrorOnFocus(e.target.name)}>
-                <option value="">--Country Code--</option>
+                <option value="">-Country Code-</option>
                 <option value="213">Algeria (+213)</option>
                 <option value="376">Andorra (+376)</option>
                 <option value="244">Angola (+244)</option>

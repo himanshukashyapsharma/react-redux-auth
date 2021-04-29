@@ -16,7 +16,7 @@ function StateSelector({error, state, ChangeUserAddress, RemoveUserErrorOnFocus}
                 onFocus={(e) => RemoveUserErrorOnFocus(e.target.name)} 
                 value={state}
             >
-                <option value="">--State--</option>
+                <option value="">-State-</option>
                 <option value="Andhra Pradesh">Andhra Pradesh</option>
                 <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
                 <option value="Arunachal Pradesh">Arunachal Pradesh</option>

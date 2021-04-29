@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import React, {useState} from 'react'
+import React, {useState, useRef} from 'react'
 
 import {ChangeAuthenticationData, OnSubmit, ChangeAuthenticationMode, RemoveAuthErrorOnFocus} from '../actions/authentication-action'
 
@@ -7,7 +7,12 @@ function AuthenticationScreen({userID, name, password, confirmPassword, mode, er
 
     const [isPasswordVisible, setIsPasswordVisibile] = useState(false)
 
-    const togglePasswordVisibility = () => setIsPasswordVisibile(!isPasswordVisible)
+    const passwordInputRef = useRef()
+
+    const togglePasswordVisibility = () => {
+        setIsPasswordVisibile(!isPasswordVisible)
+        passwordInputRef.current.focus()
+    }
 
     const onEnterPress = ({charCode}) => {
         if(charCode == 13) OnSubmit()
@@ -36,7 +41,7 @@ function AuthenticationScreen({userID, name, password, confirmPassword, mode, er
             </div> : null }
             <div className="auth-input-wrap">
                 <div className="toggle-pass-container">
-                    <input className={`auth-input ${errors.password ? 'input-error' : ''}`}type={isPasswordVisible ? 'text' : 'password'}  name="password" value={password} placeholder="Password" onChange={(e) => ChangeAuthenticationData(e.target.name, e.target.value)} onKeyPress={onEnterPress} onFocus={(e) => RemoveAuthErrorOnFocus(e.target.name)} required autoComplete="none" />
+                    <input ref={passwordInputRef} className={`auth-input ${errors.password ? 'input-error' : ''}`}type={isPasswordVisible ? 'text' : 'password'}  name="password" value={password} placeholder="Password" onChange={(e) => ChangeAuthenticationData(e.target.name, e.target.value)} onKeyPress={onEnterPress} onFocus={(e) => RemoveAuthErrorOnFocus(e.target.name)} required autoComplete="none" />
                     <span className="eye-button" onClick={togglePasswordVisibility}>{isPasswordVisible ? <i className="far fa-eye 2x"></i> : <i className="far fa-eye-slash"></i> }</span>
                 </div>
                 <div className="errors">{errors.password}</div>
