@@ -89,6 +89,7 @@ body {
     justify-content: center;
     align-items: center;
     background-color: #f4f5f5;
+    margin-bottom: 60px;
     /* height: 90vh; */
 
 }
@@ -151,12 +152,12 @@ body {
     top: -14px;
     right: -14px;
     cursor: pointer;
-    color: #ff4031;
+    color: #4460f1;
     opacity: 0.3;
 }
 
 .image-delete-button:hover {
-    opacity: 0.5;
+    opacity: 0.4;
 }
 
 .image {

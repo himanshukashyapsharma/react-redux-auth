@@ -8,6 +8,7 @@ import {ChangeUserData, ChangeUserAddress, OnUserDataSubmit, UploadImage, Remove
 
 function UserProfileScreen({name, DOB, mobile, address, image, errors, ChangeUserData, ChangeUserAddress, OnUserDataSubmit, UploadImage, RemoveUserErrorOnFocus}) {
     const fileRef = useRef()
+    const dateInputRef = useRef()
 
     const onUploadImage = (e) => {
         UploadImage(e, fileRef)
@@ -17,6 +18,14 @@ function UserProfileScreen({name, DOB, mobile, address, image, errors, ChangeUse
         fileRef.current.value = ""
         ChangeUserData('image', "")
     }
+
+    const onDateInputFocus = () => {
+        dateInputRef.current.type = 'date'
+        dateInputRef.current.focus()
+    }
+
+    const onDateInputBlur = () => dateInputRef.current.type = 'text'
+
 
     const onEnterPress = ({charCode}) => { if(charCode == 13) OnUserDataSubmit()}
 
@@ -38,7 +47,7 @@ function UserProfileScreen({name, DOB, mobile, address, image, errors, ChangeUse
                 <div className="errors">{errors.name}</div>
             </div>
             <div>
-                <input className="large-input WXL" type='date' name="DOB" value={DOB} placeholder="Enter date of birth" onChange={(e) => ChangeUserData(e.target.name, e.target.value)} onKeyPress={onEnterPress} autoComplete="none" />
+                <input ref={dateInputRef} className="large-input WXL" type='text' name="DOB" value={DOB} placeholder="Select date of birth" onChange={(e) => ChangeUserData(e.target.name, e.target.value)} onKeyPress={onEnterPress} onFocus={onDateInputFocus} onBlur={onDateInputBlur} autoComplete="none" />
             </div>
             <div className="display-flex">
                 <CountryCodeSelector />
@@ -62,7 +71,7 @@ function UserProfileScreen({name, DOB, mobile, address, image, errors, ChangeUse
                 <input className={`large-input WXL ${errors.address ? 'input-error' : ''}`} type='text' name="address" value={address.address} placeholder="Enter your address" onChange={(e) => ChangeUserAddress(e.target.name, e.target.value)} onKeyPress={onEnterPress} onFocus={(e) => RemoveUserErrorOnFocus(e.target.name)} autoComplete="none" />
                 <div className="errors">{errors.address}</div>
             </div>
-            <button className="input-button" onClick={OnUserDataSubmit}>Update</button>
+            <button className="input-button WXL" onClick={OnUserDataSubmit}>Update</button>
         </div>
     )
 }
