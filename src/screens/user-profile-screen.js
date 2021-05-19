@@ -29,10 +29,12 @@ function UserProfileScreen({name, DOB, mobile, address, image, errors, ChangeUse
 
     const onEnterPress = ({charCode}) => { if(charCode == 13) OnUserDataSubmit()}
 
+    // let showImage = !!image && Object.keys(image).length > 0
+    console.log(image);
     return (
         <div className="user-profile-container">
             <div className="image-container">
-                <img className="image" src={!!image ? (window.URL || window.webkitURL).createObjectURL(image) : 'default.png'} alt="user profile" />
+                <img className="image" src={!!image ? image : 'default.png'} alt="user profile" />
                 {!!image ? <span className="image-delete-button" onClick={ClearUserImage}><i className="far fa-times-circle fa-2x"></i></span> : null}
             </div>
             <div className="file-input-container">

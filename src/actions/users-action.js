@@ -16,7 +16,7 @@ export const ChangeUserData = (key,value) => ({type: CHANGE_USER_DATA, key, valu
 export const ChangeUserAddress = (key,value) => ({type: CHANGE_USER_ADDRESS, key, value})
 
 export const OnUserDataSubmit = () => (dispatch, getState) => {
-    const {name, mobile, address,countryCode} = getState().users_store
+    const {userID, name, mobile, address,countryCode, DOB, image} = getState().users_store
 
     const mobile_validator = /^[6-9][0-9]{9}$/;
     const valid_mobile = mobile_validator.test(mobile);
@@ -51,7 +51,7 @@ export const OnUserDataSubmit = () => (dispatch, getState) => {
     if(Object.keys(errors).length > 0) {
         dispatch(ChangeUserData('errors', errors))
     } else {
-        runAfterLoader(() => dispatch({type: UPDATE_USER_DATA}) ,dispatch)
+        runAfterLoader(() => dispatch({type: UPDATE_USER_DATA, userID, name, mobile, address, countryCode, DOB, image}) ,dispatch)
     }
 }
 
@@ -77,15 +77,25 @@ export const UploadImage = (event, fileRef) => (dispatch) => {
             fileRef.current.value = ""
         })
     } else {
-        const _URL = window.URL || window.webkitURL;
-        const img = new Image();
-        img.src = _URL.createObjectURL(file);
-        img.onload = function () {   
-                batch(() => {
-                    dispatch(ChangeUserData('loader',false))
-                    dispatch({ type: UPLOAD_IMAGE, file });
-                })
-            }
+        // const _URL = window.URL || window.webkitURL;
+        // const img = new Image();
+        // img.src = _URL.createObjectURL(file);
+        // img.onload = function () {   
+        //         batch(() => {
+        //             dispatch(ChangeUserData('loader',false))
+        //             dispatch({ type: UPLOAD_IMAGE, file: img.src });
+        //         })
+        //     }
+        const reader = new FileReader()
+
+        reader.onload = function () {
+            batch(() => {
+                            dispatch(ChangeUserData('loader',false))
+                            dispatch({ type: UPLOAD_IMAGE, file: reader.result });
+                        })
+        }
+
+        reader.readAsDataURL(file)
     }
 };
 

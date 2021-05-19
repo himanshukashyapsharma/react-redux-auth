@@ -68,8 +68,7 @@ export const OnSubmit = () => (dispatch, getState) => {
 
 export const RegisterNewUser = () => (dispatch, getState) => {
     const {userID, password, name, isValidMobile} = getState().authentication_store
-    const {users} = getState().users_store
-
+    const {users} = getState().users_datalist_store
     if(users.some(user => user.userID == userID)) {
         showAuthenticationError('Unique ID already exists!', dispatch)
     } else {
@@ -84,7 +83,9 @@ export const RegisterNewUser = () => (dispatch, getState) => {
 
 export const LoginNewUser = () => (dispatch, getState) => {
     const {userID, password} = getState().authentication_store
-    const {users} = getState().users_store
+    const {users} = getState().users_datalist_store
+    console.log(users);
+
     const registeredUser = getRegisteredUserData(userID, users)
     if(!!registeredUser) {
         if(registeredUser.password == password) {
